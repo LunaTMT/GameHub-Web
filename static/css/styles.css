@@ -1,0 +1,232 @@
+body {
+    background-color:  #ffa60080;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.scores {
+    display: flex;
+    width: 30vw; /* Set the width to 50% of the viewport width */
+    justify-content: space-between;
+}
+
+.scores p {
+    width: 100%;
+    font-size: 2vw;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.board {
+    background-color: white;
+    width: 30vw; /* Set the width to 50% of the viewport width */
+    height: 30vw; /* Set the height to 50% of the viewport width */
+    min-height: 20vh;
+    position: relative; /* Added position relative for absolute positioning of lines */
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    border-right: 0.25vw solid black;
+    height: 33.33%;
+}
+
+.col {
+    border: 0.25vw solid black;
+    width: 33.33%;
+    border-right: 0;
+    border-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vw; /* Adjust the font size to make it larger */
+    font-weight: bold; /* Optional: Increase font weight for better visibility */
+    position: relative; /* Added position relative for absolute positioning of lines */
+}
+
+.row:last-of-type {
+    border-bottom: 0.25vw solid black;
+}
+
+.button_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 40vw;
+    height: 5vw;
+    margin: 1% 0;
+}
+
+.button_container button {
+    width: 25%;
+    height: 100%;
+    font-size: 1.5vw;
+    font-family: 'Open Sans', sans-serif;
+    border-radius: 5%;
+    background-color: #ffa60080;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.button_container button:hover {
+    background-color: #ffa600; /* Change to a lighter shade on hover */
+}
+
+
+.cross {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.cross::before,
+.cross::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0.5vw;
+    background-color: black;
+    top: 48%;
+    left: 0;
+}
+
+.cross::before {
+    transform: rotate(45deg);
+}
+
+.cross::after {
+    transform: rotate(-45deg);
+}
+
+.circle {
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    border: 0.5vw solid black;
+    background-color: transparent;
+}
+
+
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 576px) {
+    .board{
+        width: 60vw; /* Set the width to 50% of the viewport width */
+        height: 30vw;
+    }
+}
+
+/* Small Devices (Tablets) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .scores {
+        width: 60vw;
+    }
+
+    .scores p {
+        font-size: 3.5vw;
+    }
+    
+    .board{
+        width: 60vw; /* Set the width to 50% of the viewport width */
+        height: 60vw;
+    }
+
+    .button_container button {
+        width: 45%;
+        height: 100%;
+        font-size: 3.5vw;
+    }
+
+    .button_container {
+        width: 60vw;
+        height: 10vw;
+
+    }
+}
+
+/* Medium Devices (Laptops and Desktops) */
+@media (min-width: 769px) and (max-width: 992px) {
+    .scores {
+        width: 50vw;
+    }
+
+    .scores p {
+        font-size: 3.5vw;
+    }
+    
+    .board{
+        width: 50vw; /* Set the width to 50% of the viewport width */
+        height: 50vw;
+    }
+
+    .button_container button {
+        width: 45%;
+        height: 100%;
+        font-size: 3.5vw;
+    }
+
+    .button_container {
+        width: 50vw;
+        height: 10vw;
+
+    }
+}
+
+/* Large Devices (Large Desktops) */
+@media (min-width: 993px) and (max-width: 1200px) {
+    .scores {
+        width: 40vw;
+    }
+
+    .scores p {
+        font-size: 3vw;
+    }
+    
+    .board{
+        width: 40vw; /* Set the width to 50% of the viewport width */
+        height: 40vw;
+    }
+
+    .button_container button {
+        width: 45%;
+        height: 100%;
+        font-size: 3vw;
+    }
+
+    .button_container {
+        width: 40vw;
+        height: 7.5vw;
+
+    }
+}
+
+/* Extra Large Devices (Extra Large Desktops) */
+@media (min-width: 1201px) {
+    .scores {
+        width: 30vw;
+    }
+
+    .scores p {
+        font-size: 2vw;
+    }
+    
+    .board{
+        width: 30vw; /* Set the width to 50% of the viewport width */
+        height: 30vw;
+    }
+
+    .button_container button {
+        width: 45%;
+        height: 100%;
+        font-size: 2vw;
+    }
+
+    .button_container {
+        width: 30vw;
+        height: 6vw;
+
+    }
+}
