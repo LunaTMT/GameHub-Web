@@ -24,7 +24,6 @@ def handle_connect():
 
 @socketio.on('setUserId')
 def handle_setUserId(data):
-    print(data)
     connected.append(data['userId'])
     scores[data['userId']] = 0
 
@@ -44,7 +43,6 @@ def handle_placeSymbol(data):
    
 @socketio.on('resetBoard')
 def handle_resetBoard():
-    print("resetting")
     emit('resetBoard', broadcast=True)
 
     global moves

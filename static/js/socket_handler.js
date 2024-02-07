@@ -11,7 +11,6 @@ socket.on('connect', function () {
 });
 
 socket.on('updateBoard', function(data) {
-    console.log("placed symbol")
     let { cell_id, symbol_class } = data;
     const cell = document.getElementById(cell_id);
     const symbolDiv = document.createElement('div');
@@ -34,7 +33,6 @@ socket.on('undo', function(last_poisiton_id){
 });
 
 socket.on('checkWin', function() {
-    console.log("checking win")
     const rows = [
         [document.getElementById('col_1'), document.getElementById('col_2'), document.getElementById('col_3')],
         [document.getElementById('col_4'), document.getElementById('col_5'), document.getElementById('col_6')],
@@ -60,7 +58,6 @@ socket.on('checkWin', function() {
             });
     
             if (satisfiesWinCondition(symbols)) {
-                console.log("won");
                 let cell_ids = arr.map(cell => cell.id);
                 socket.emit('showWinner', { cell_ids: cell_ids });
                 socket.emit('updatePlayerPoints', { user_id: user_id });
@@ -83,7 +80,6 @@ socket.on('highlightWinner', function(data) {
 });
 
 socket.on('updatePlayerPoints', function(data){
-    console.log(data)
     let selectors = ['.p1 p', '.p2 p'];  
     selectors.forEach(function(selector, index){
         let p_tag = document.querySelector(selector);

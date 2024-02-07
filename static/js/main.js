@@ -9,7 +9,6 @@ function placeSymbol(cell) {
 
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('restart').addEventListener('click', function() {
-      console.log('reset');
       socket.emit('resetBoard');
     });
 
