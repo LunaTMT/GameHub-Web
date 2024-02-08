@@ -1,16 +1,16 @@
-body {
-    background-color:  #ffa60080;
-    display: flex;
+.game_content{
+    display: flex; 
     flex-direction: column;
+    background-color: white;
     align-items: center;
     justify-content: center;
-    min-width: 100vw;
-    min-height: 100vh;
+    width: 100%;;
+    height: 100%;
 }
 
 .scores {
     display: flex;
-    width: 30vw; /* Set the width to 50% of the viewport width */
+    width: 30vw;
     justify-content: space-between;
 }
 
@@ -22,11 +22,10 @@ body {
 
 .board {
     background-color: white;
-    width: 30vw; /* Set the width to 50% of the viewport width */
-    height: 30vw; /* Set the height to 50% of the viewport width */
-    min-height: 20vh;
-    position: relative; /* Added position relative for absolute positioning of lines */
+    width: 30vw;
+    height: 30vw;
 }
+
 
 .row {
     display: flex;
@@ -114,8 +113,8 @@ body {
 /* Extra Small Devices (Phones) */
 @media (max-width: 576px) {
     .board{
-        width: 60vw; /* Set the width to 50% of the viewport width */
-        height: 30vw;
+        width: 70vw; /* Set the width to 50% of the viewport width */
+        height: 70vw;
     }
 }
 

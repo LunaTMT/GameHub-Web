@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    
+    <div class="main_container">
+        <header class ="left_content">
+            <ul>
+                <div class ="category">
+                    <p>Home</p>
+                    <li><a href="{{ url_for('main.base') }}">Link 1</a></li>
+                    <li><a href="{{ url_for('main.base') }}">Link 2</a></li>
+                    <li><a href="{{ url_for('main.base') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.base') }}">Home</a></li>
+                </div>
+
+                <div class ="category">
+                    <p>Games</p>
+                    <li><a href="{{ url_for('games.tictactoe') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.tictactoe') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.tictactoe') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.tictactoe') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.tictactoe') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.tictactoe') }}">Tic, Tac, Toe</a></li>
+                </div>
+
+                <div class ="category">
+                    <p>Games</p>
+                    <li><a href="{{ url_for('games.games') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.games') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.games') }}">Tic, Tac, Toe</a></li>
+                    <li><a href="{{ url_for('games.games') }}">Tic, Tac, Toe</a></li>
+                </div>
+            </ul>
+        </header>
+        
+        <div class="center_content">
+            <main>
+                {% block content %}{% endblock %}   
+            </main>
+        </div>
+
+        <div class="right_content">
+            <footer>
+                <div class="image_container">
+                    <a>
+                        <img src="{{ url_for('static', filename='images/gmail.jpeg') }}" alt="Gmail" id="copyImage" style="cursor: pointer;" onclick="copyToClipboard('taylorthreader@gmail.com');">
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCYvuD6FQETZ9am_kEeH0xGg" target="_blank">
+                        <img src="{{ url_for('static', filename='images/youtube.jpeg') }}" alt="Youtube">
+                    </a>
+                    <a href="https://github.com/LunaTMT" target="_blank">
+                        <img src="{{ url_for('static', filename='images/github.jpeg') }}" alt="Github">
+                    </a>
+                    <a href="https://www.linkedin.com/in/t-shredder-a8857b9a/" target="_blank">
+                        <img src="{{ url_for('static', filename='images/linkedin.jpeg') }}" alt="Linkedin">
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

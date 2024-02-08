@@ -1,0 +1,62 @@
+ footer .image_container {
+    width: 100%;
+    height: 100%;
+    border-left: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto; /* Push the footer to the bottom */
+  }
+  
+
+  footer .image_container a {
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Media queries for different screen widths */
+  footer .image_container img {
+    height: auto;
+    margin: 1vw 1vw;
+    max-width: 100%;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  @media screen and (max-width: 600px) {
+    footer .image_container img {
+      width: 10%; /* Adjust the width for smaller screens */
+    }
+  }
+  
+  @media screen and (min-width: 601px) and (max-width: 900px) {
+    footer .image_container img {
+      width: 45%; /* Adjust the width for medium screens */
+    }
+  }
+  
+  @media screen and (min-width: 901px) and (max-width: 1200px) {
+    footer .image_container img {
+      width: 40%; /* Adjust the width for larger medium screens */
+    }
+  }
+  
+  @media screen and (min-width: 1201px) and (max-width: 1600px) {
+    footer .image_container img {
+      width: 35%; /* Adjust the width for larger screens */
+    }
+  }
+  
+  @media screen and (min-width: 1601px) {
+    footer .image_container img {
+      width: 60%; /* Adjust the width for extra-large screens */
+    }
+  }
+  
+  footer .image_container img:hover {
+    transform: scale(1.1);
+  }
+  
