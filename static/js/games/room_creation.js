@@ -17,28 +17,15 @@ socket.on('room_maximum_capacity', function (data) {
     console.log('The room is at maximum capacity');
 });
 
+socket.on('play_game', function () {
+    console.log("time to play")
+    //document.getElementById('options').classList.add('hidden'); 
+    //document.getElementById('game_content').classList.remove('hidden');
 
+    
+    // Assuming you want to redirect to a route named 'play_game'
+    window.location.href = "{{ url_for('games.tictactoe') }}";
 
-
-// CONNECTION HANDLERS // 
-socket.on('connect', function () {
-    console.log('Connected to the server');
-});
-
-socket.on('connected', function (data) {
-    console.log('Connected with user ID:', data.user_id, 'in room:', data.room);
-    localStorage.setItem('user_id', data.user_id);
-});
-
-socket.on('connection_error', function (data) {
-    console.log('Connection error:', data.message);
-    alert('Connection error: ' + data.message);
-    socket.disconnect();
-});
-
-socket.on('disconnect', function () {
-    console.log('Disconnected');
-    localStorage.removeItem('user_id');
 });
 
 
@@ -58,7 +45,6 @@ function initialise(){
     // Emit an event to create a room and add the user to it
     socket.emit('create_room', { user_id: user_id, room_id: room_id });
 }
-
 
 // Function to generate a user ID (if not available in local storage)
 function generateUserId() {

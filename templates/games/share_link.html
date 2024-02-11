@@ -5,10 +5,14 @@
 {% block head %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
 
-    <script src="{{ url_for('static', filename='js/games/share_link_copy_to_clipboard.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/games/connect.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/games/share_link.css') }}">
+    <script src="{{ url_for('static', filename='js/games/copy_to_clipboard.js') }}"></script>   
+    <script src="{{ url_for('static', filename='js/games/room_creation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/games/room_connection.js') }}"></script>
+    
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/games/game_settings.css') }}">
     
 {% endblock %}
         
@@ -16,5 +20,6 @@
     <p>Share this link with a friend</p>
     <div class="link_container" onclick="copyLinkToClipboard()">
         <p id="linkText">{{ link }}</p>
-    </div>
+    </div>    
+
 {% endblock %}

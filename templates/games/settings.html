@@ -1,11 +1,18 @@
+
 {% extends "base.html" %}
 
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/games/games.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
+
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/games/game_settings.css') }}">
+
+    
+
 {% endblock %}
-        
+
 {% block content %}
-    <div class="options">
+    <div id="options" class="options">
         <h2>{{ title }}</h2>
         <button>Play online</button>
 
@@ -17,7 +24,6 @@
     </div>
 
     <script>
-        // Function to generate a random key
         function generateRandomKey() {
             let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~';
             let randomKey = '';
@@ -34,7 +40,8 @@
         document.getElementById('shareLinkForm').addEventListener('submit', function(event) {
             event.preventDefault();
             let randomKey = generateRandomKey();
-            window.location.href = "{{ url_for('games.share_link', random_key='__random_key__') }}".replace('__random_key__', randomKey);
+            window.location.href = "{{ url_for('games.share_link', title=title, random_key='__random_key__') }}".replace('__random_key__', randomKey);
+            
         });
     </script>
 {% endblock %}

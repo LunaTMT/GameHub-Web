@@ -8,17 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/games/tic_tac_toe.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/games/game_settings.css') }}">
+
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/socket_handler.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/main.js') }}"></script> -->
+    <!-- <script src="{{ url_for('static', filename='js/socket_handler.js') }}"></script>-->
+
+
+    <script src="{{ url_for('static', filename='js/games/room_connection.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/games/room_creation.js') }}"></script>
+    
 {% endblock %}
         
 {% block content %}
-    <div class = "game_content">
+
+    <div id="game_content" class="game_content hidden">
         <div class="scores">
             <div class="p1">
                 <p>Score : 0</p>
@@ -56,4 +65,6 @@
         </div>
     </div>
 {% endblock %}
+
+
 

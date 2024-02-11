@@ -34,25 +34,26 @@ def register_socketio_events(socketio):
                 'current_player': 0,
                 'scores': {}
             }
-            emit('room_created', {'room_id': room_id}, room=request.sid)
+            emit('room_created', {'room_id': room_id}, room=room_id)  # Use room parameter here
+            emit('room_joined', {'room_id': room_id, 'users': list(rooms_dict[room_id]['users'])}, room=room_id)  # Use room parameter here
         else:
-            handle_join_room( {'user_id' : user_id, 'room_id': room_id } )
-
+            handle_join_room({'user_id' : user_id, 'room_id': room_id })
 
     @socketio.on('join_room')
     def handle_join_room(data):
         user_id = data['user_id']
         room_id = data['room_id']
 
-        #if len(rooms_dict[room_id]['users']) < 2:
-        
-        join_room(room_id) 
-        print("joining")
-        rooms_dict[room_id]['users'].add(user_id)
-        print(rooms_dict[room_id]['users'])
-        emit('room_joined', {'room_id': room_id, 'users': list(rooms_dict[room_id]['users'])}, room=request.sid)
-        #else:
-        #    emit('room_maximum_capacity')
+        room_length = len(rooms_dict[room_id]['users'])
+
+        if room_length == 1:
+            rooms_dict[room_id]['users'].add(user_id)
+            join_room(room_id)  
+            emit('room_joined', {'room_id': room_id, 'users': list(rooms_dict[room_id]['users'])}, room=room_id)  # Use room parameter here
+            emit('play_game', room=room_id)  # Use room parameter here
+        else:
+            emit('room_maximum_capacity')
+
 
    
 
