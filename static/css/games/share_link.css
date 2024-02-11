@@ -1,0 +1,4 @@
+.link_container p {
+    user-select: all;
+    cursor: pointer;
+}

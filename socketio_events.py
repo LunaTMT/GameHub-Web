@@ -1,4 +1,6 @@
-from flask_socketio import emit
+from flask import session, request
+from flask_socketio import emit, join_room, leave_room
+
 
 connected = []
 symbol_class_names = ["cross", "circle"]
@@ -12,9 +14,51 @@ def get_current_symbol():
     return symbol_class_names[current_player]
 
 def register_socketio_events(socketio):
-    @socketio.on('connect')
-    def handle_connect():
-        print("connected")
+    
+    @socketio.on('connect_user')
+    def handle_connect_user(data):
+        user_id = data.get('user_id')
+        room = data.get('room')
+
+        if not user_id or not room:
+            socketio.emit('connection_error', {'message': 'Invalid user ID or room'})
+            return
+
+        # Check the number of clients in the room
+        clients_in_room = len(socketio.server.manager.rooms[room])
+
+        if clients_in_room > 2:
+            socketio.emit('connection_error', {'message': 'Room is full'})
+            return
+        else:
+            # Join the specified room
+            join_room(room)
+            socketio.emit('connected', {'user_id': user_id, 'room': room})
+
+
+    @socketio.on('disconnect')
+    def handle_disconnect():
+        user_id = session.get('user_id', None)
+        room = session.get('room', None)
+        
+        if user_id and room:
+            # Disconnect from the joined room upon disconnection
+            leave_room(room)
+            session.pop('room', None)
+
+    @socketio.on('create_room')
+    def handle_create_room(data):
+        print("creating room")
+        user_id = data.get('user_id')
+        if user_id:
+            room = user_id
+            join_room(room)
+            emit('room_created', {'room': room})
+
+
+
+
+
 
     @socketio.on('setUserId')
     def handle_setUserId(data):

@@ -6,8 +6,24 @@ socket.on('connect', function () {
         userId = socket.id;
         localStorage.setItem('user_id', userId);
     }
-    console.log(userId + " has connected");
+    //console.log(userId + " has connected");
     socket.emit('setUserId', {"userId" : userId} );
+});
+
+
+socket.on('connection_error', function(data) {
+    console.log('Connection error:', data.message);
+    alert('Connection error: ' + data.message);
+    socket.disconnect();
+});
+
+socket.on('connected', function(data) {
+    console.log('Connected with user ID:', data.user_id);
+});
+
+
+socket.on('disconnect', function() {
+    console.log('Socket disconnected');
 });
 
 socket.on('updateBoard', function(data) {

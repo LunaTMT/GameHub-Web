@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/games/games.css') }}">
+{% endblock %}
+        
+{% block content %}
+    <div class="options">
+        <h2>{{ title }}</h2>
+        <button>Play online</button>
+
+        <form id="shareLinkForm" method="get">
+            <button type="submit">Play with a friend</button>
+        </form>
+
+        <button>Play vs computer</button>
+    </div>
+
+    <script>
+        // Function to generate a random key
+        function generateRandomKey() {
+            let characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+            let randomKey = '';
+
+            for (let i = 0; i < 8; i++) {
+                let randomIndex = Math.floor(Math.random() * characters.length);
+                randomKey += characters.charAt(randomIndex);
+            }
+
+            return randomKey;
+        }
+
+        // Update the form action with the generated random key before submitting
+        document.getElementById('shareLinkForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let randomKey = generateRandomKey();
+            window.location.href = "{{ url_for('games.share_link', random_key='__random_key__') }}".replace('__random_key__', randomKey);
+        });
+    </script>
+{% endblock %}
