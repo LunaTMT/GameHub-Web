@@ -1,30 +1,17 @@
-let userId = localStorage.getItem('user_id');
+
 let socket = io.connect('http://' + document.domain + ':' + location.port);
 
-socket.on('connect', function () {
-    if (!userId) {
-        userId = socket.id;
-        localStorage.setItem('user_id', userId);
-    }
-    //console.log(userId + " has connected");
-    socket.emit('setUserId', {"userId" : userId} );
-});
+let fullPath = window.location.pathname.split('/');
+let room_id = fullPath[fullPath.length - 1]; 
 
 
-socket.on('connection_error', function(data) {
-    console.log('Connection error:', data.message);
-    alert('Connection error: ' + data.message);
-    socket.disconnect();
-});
+function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+}
 
-socket.on('connected', function(data) {
-    console.log('Connected with user ID:', data.user_id);
-});
-
-
-socket.on('disconnect', function() {
-    console.log('Socket disconnected');
-});
+let user_id = getCookie('user_id');
+console.log('User ID from cookie:', user_id);
 
 socket.on('updateBoard', function(data) {
     let { cell_id, symbol_class } = data;
@@ -102,3 +89,22 @@ socket.on('updatePlayerPoints', function(data){
         p_tag.textContent = `Score : ${data['scores'][index]}`;
     });
 });
+
+
+function placeSymbol(cell) {
+    if (!cell.firstChild) {
+        socket.emit('placeSymbol', {cell_id : cell.id, 
+                                    user_id : user_id,
+                                    room_id : room_id});   
+    }
+}
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('restart').addEventListener('click', function() {
+      socket.emit('resetBoard');
+    });
+
+    document.getElementById('undo').addEventListener('click', function() {
+      socket.emit('undo');
+    });
+  });

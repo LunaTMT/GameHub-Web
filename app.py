@@ -8,9 +8,21 @@ from blueprints.games_bp import games_bp
 import random
 import string
 import os
+import logging
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+
+
+"""
+# Disable Flask's default access log
+app.logger.disabled = True
+
+# Disable logging of werkzeug (Flask's underlying WSGI library)
+log = logging.getLogger('werkzeug')
+log.disabled = True
+"""
+
 
 # Register the Blueprints
 app.register_blueprint(main_bp)
