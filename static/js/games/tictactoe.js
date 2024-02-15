@@ -62,8 +62,8 @@ socket.on('checkWin', function() {
     
             if (satisfiesWinCondition(symbols)) {
                 let cell_ids = arr.map(cell => cell.id);
-                socket.emit('showWinner', { cell_ids: cell_ids });
-                socket.emit('updatePlayerPoints', { user_id: user_id });
+                socket.emit('showWinner',         { room_id : room_id, cell_ids: cell_ids });
+                socket.emit('updatePlayerPoints', { room_id : room_id, user_id : user_id });
                 return true
             }
         }
@@ -86,7 +86,7 @@ socket.on('updatePlayerPoints', function(data){
     let selectors = ['.p1 p', '.p2 p'];  
     selectors.forEach(function(selector, index){
         let p_tag = document.querySelector(selector);
-        p_tag.textContent = `Score : ${data['scores'][index]}`;
+        p_tag.textContent = `Score : ${data['points'][index]}`;
     });
 });
 
@@ -100,11 +100,8 @@ function placeSymbol(cell) {
 }
 
   document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('restart').addEventListener('click', function() {
-      socket.emit('resetBoard');
+    document.getElementById('play_again').addEventListener('click', function() {
+      socket.emit('resetBoard', { room_id : room_id });
     });
 
-    document.getElementById('undo').addEventListener('click', function() {
-      socket.emit('undo');
-    });
   });
