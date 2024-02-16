@@ -1,0 +1,20 @@
+<!-- share_link.html -->
+
+{% extends "base.html" %}
+
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+    <script src="{{ url_for('static', filename='js/server_connections.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/games/copy_to_clipboard.js') }}"></script>  
+    <script src="{{ url_for('static', filename='js/games/room_creation.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/games/room.js') }}"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/games/game_settings.css') }}">
+    
+{% endblock %}
+        
+{% block content %}
+    <h1>Finding a random player</h1>
+{% endblock %}

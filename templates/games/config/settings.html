@@ -9,7 +9,9 @@
 {% block content %}
     <div id="options" class="options">
         <h2>{{ title }}</h2>
-        <button>Play online</button>
+        <form id="onlineLinkForm" method="get">
+            <button type="submit">Play online</button>
+        </form>
 
         <form id="shareLinkForm" method="get">
             <button type="submit">Play with a friend</button>
@@ -36,6 +38,15 @@
             event.preventDefault();
             let randomKey = generateRandomKey();
             window.location.href = `{{ url_for('games.share_link', game=title, random_key='__random_key__') }}`.replace('__random_key__', randomKey);
+            
+        }); 
+
+
+        // Update the form action with the generated random key before submitting
+        document.getElementById('onlineLinkForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            let randomKey = generateRandomKey();
+            window.location.href = `{{ url_for('games.random', game=title, random_key='__random_key__') }}`.replace('__random_key__', randomKey);
             
         }); 
     </script>

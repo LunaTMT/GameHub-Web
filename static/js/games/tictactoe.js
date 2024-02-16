@@ -3,13 +3,6 @@ let socket = io.connect('http://' + document.domain + ':' + location.port);
 
 let fullPath = window.location.pathname.split('/');
 let room_id = fullPath[fullPath.length - 1]; 
-
-
-function getCookie(name) {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-}
-
 let user_id = getCookie('user_id');
 console.log('User ID from cookie:', user_id);
 
@@ -90,6 +83,11 @@ socket.on('updatePlayerPoints', function(data){
     });
 });
 
+
+function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+}
 
 function placeSymbol(cell) {
     if (!cell.firstChild) {
