@@ -11,9 +11,6 @@ def register_socketio_events(socketio, db, Room):
         user_id = data.get('user_id')
         room_id = data.get('room_id')
 
-        print(game, user_id, room_id)
-        print(type(game), type(user_id), type(room_id))
-
         if not all([game, user_id, room_id]):
             # Handle missing data keys
             emit('error', {'message': 'Invalid data for creating a room'})
@@ -21,23 +18,24 @@ def register_socketio_events(socketio, db, Room):
 
         # Check if the room already exists in the database
         existing_room = Room.query.filter_by(id=room_id).first()
+        
 
         if existing_room is None:
             try:
                 # Room doesn't exist, create a new one
-                new_room = Room(
-                    id='XOqjr3Jv',
-                    users=["user_1707929356107"],  # Pass the list directly
+                room = Room(
+                    id=room_id,
+                    users=[user_id],  # Pass the list directly
                     symbol_class_names=["cross", "circle"],  # Pass the list directly
-                    points={"user_1707929356107": 0},  # Pass the dictionary directly
+                    points=[0],  # Pass the dictionary directly
                     moves=[],  # Pass the list directly
                     won=False,
                     current_player=0,
-                    game='tictactoe'
+                    game=game
                 )
             
 
-                db.session.add(new_room)
+                db.session.add(room)
                 db.session.commit()
                 join_room(room_id)
 
@@ -62,16 +60,28 @@ def register_socketio_events(socketio, db, Room):
         user_id = data['user_id']
         room_id = data['room_id']
 
+        print(game, user_id, room_id)
+
         # Fetch the room from the database
         room = Room.query.get(room_id)
-        if room and len(room.users) < 2 and user_id not in room.users:
-            room.users.append(user_id)
-            room.points[user_id] = 0
 
+        if room and len(room.users) < 2 and user_id not in room.users:
+            # Make a copy of the users list before modification
+            room.users = room.users.copy()
+            room.users.append(user_id)
+
+            room.points = room.points.copy()
+            room.points.append(0)
+
+            
+            db.session.add(room)
             db.session.commit()
+
             join_room(room_id)
-            print("done")
-            emit('room_joined', {'room_id': room_id, 'users': list(room.users)}, room=room_id)
+            
+
+            print("JOINED")
+            emit('room_joined', {'room_id': room_id, 'user_id': user_id, 'users': room.users}, room=room_id)
             emit('play_game', {'game': game, 'room_id': room_id}, room=room_id)
         else:
             emit('room_maximum_capacity')
@@ -92,16 +102,23 @@ def register_socketio_events(socketio, db, Room):
         cell_id, user_id, room_id = data.values()
 
         room = Room.query.get(room_id)
+        
         current_player = room.current_player
+
 
         if not room.won:
             if user_id == room.users[current_player]:
                 emit('updateBoard', {"cell_id" : cell_id,  "symbol_class" : room.symbol_class_names[current_player]}, broadcast=True) 
-                room.current_player += 1
-                room.current_player %= 2
+                
+                room.moves = room.moves.copy()
                 room.moves.append(cell_id)
+                
                 emit('checkWin')
 
+                room.current_player += 1
+                room.current_player %= 2
+                
+                db.session.add(room)
                 db.session.commit()
     
     @socketio.on('resetBoard')
@@ -113,7 +130,9 @@ def register_socketio_events(socketio, db, Room):
 
         room.moves = []
         room.won = False
+        room.current_player = 0
 
+        db.session.add(room)
         db.session.commit()
 
     @socketio.on('showWinner')
@@ -121,18 +140,28 @@ def register_socketio_events(socketio, db, Room):
         room_id, cell_ids = data.values()
         room = Room.query.get(room_id)
         room.won = True
-        room.current_player -= 1
 
         emit('highlightWinner', {"cell_ids": cell_ids}, broadcast=True)
 
+        db.session.add(room)
         db.session.commit()
+  
+
 
     @socketio.on('updatePlayerPoints')
     def handle_updatePlayerPoints(data):
-        room_id, user_id = data.values()
+        room_id = data.values()
         room = Room.query.get(room_id)
-        room.points[user_id] += 1
 
-        emit('updatePlayerPoints', {"points": list(room.points.values())}, broadcast=True)
+        
+        current_player = room.current_player
+        
+    
+        room.points = room.points.copy()
+        room.points[current_player-1] += 1
 
+        room.current_player -= 1
+        emit('displayPoints', {"points": room.points}, broadcast=True)
+
+        db.session.add(room)
         db.session.commit()

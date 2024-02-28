@@ -45,6 +45,8 @@ socket.on('room_joined', function (data) {
     console.log('Users in the room:', data.users);
 });
 
+
+
 socket.on('room_maximum_capacity', function (data) {
     console.log('The room is at maximum capacity');
 });
