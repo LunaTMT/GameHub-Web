@@ -2,11 +2,24 @@
 description: IN PROGRESS
 ---
 
-# Tic-Tac-Toe Flask
+#GameHub
 
-This is a web-based Tic Tac Toe application that currently allows two clients to play against each other.&#x20;
+This is an ongoing project designed to create a central game hub website where there are several online multiplayed games. 
 
-You can only run this project through flask currently but in the future it will be a separate website you can visit, hopefully with a global leaderboard, P V P and P V Ai.
+Features:
+###Implemented
+Creating a room 
+
+###Unimplemented
+Random player
+Player vs Ai
+
+Scoreboard
+Game profile
+
+###Games Implemented
+Tic Tac Toe
+
 
 ## Important!
 
