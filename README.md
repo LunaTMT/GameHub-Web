@@ -2,22 +2,22 @@
 description: IN PROGRESS
 ---
 
-#GameHub
+# GameHub
 
 This is an ongoing project designed to create a central game hub website where there are several online multiplayed games. 
 
 Features:
-###Implemented
+### Implemented
 Creating a room 
 
-###Unimplemented
+### Unimplemented
 Random player
 Player vs Ai
 
 Scoreboard
-Game profile
+User profile & Levels
 
-###Games Implemented
+### Games Implemented
 Tic Tac Toe
 
 
