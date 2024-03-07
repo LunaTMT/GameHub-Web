@@ -7,7 +7,7 @@ description: IN PROGRESS
 This is an ongoing project designed to create a central game hub website where there are several online multiplayed games. 
 
 Features:
-### Implemented
+#### Implemented
 Creating a room 
 
 ### Unimplemented
