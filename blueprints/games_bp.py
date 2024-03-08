@@ -4,10 +4,8 @@ from flask import Blueprint, render_template, request, url_for
 games_bp = Blueprint('games', __name__)
 
 
-
 @games_bp.route('/<game>/<room_id>')
 def play_game(room_id, game):
-    print(f'games/{game}.html')
     return render_template(f'games/{game}.html', title=game)
 
 @games_bp.route('/<game>/settings')

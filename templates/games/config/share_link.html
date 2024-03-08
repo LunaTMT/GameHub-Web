@@ -5,12 +5,17 @@
 {% block head %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 
+    
+    
+
+    <script src="{{ url_for('static', filename='js/server_connections.js') }}"></script> 
+    
     <script src="{{ url_for('static', filename='js/games/copy_to_clipboard.js') }}"></script>  
+    <script src="{{ url_for('static', filename='js/games/redirect.js') }}"></script>  
 
-    <script src="{{ url_for('static', filename='js/server_connections.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='js/games/initialise_globals.js') }}"></script>
     <script src="{{ url_for('static', filename='js/games/room_creation.js') }}"></script> 
-    <script src="{{ url_for('static', filename='js/games/room.js') }}"></script>
+
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/games/game_settings.css') }}">
     

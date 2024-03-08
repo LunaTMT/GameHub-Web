@@ -1,10 +1,8 @@
 
 let socket = io.connect('http://' + document.domain + ':' + location.port);
-
 let fullPath = window.location.pathname.split('/');
 let room_id = fullPath[fullPath.length - 1]; 
 let user_id = getCookie('user_id');
-console.log('User ID from cookie:', user_id);
 
 socket.on('updateBoard', function(data) {
     let { cell_id, symbol_class } = data;

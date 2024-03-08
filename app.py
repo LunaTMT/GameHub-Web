@@ -34,7 +34,6 @@ from models.room import Room
 with app.app_context():
     # Create the tables when the application context is pushed
     db.create_all()
-
     # Register SocketIO events after creating the tables
     register_socketio_events(socketio, db, Room)
 

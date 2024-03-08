@@ -1,6 +1,12 @@
-from flask_socketio import emit, join_room
+from flask_socketio import emit, join_room, leave_room
 from flask import url_for, request
+from random import choice 
 
+from sqlalchemy import func
+from collections import deque
+
+
+userQueue = deque()
 
 def register_socketio_events(socketio, db, Room):
 
@@ -51,18 +57,13 @@ def register_socketio_events(socketio, db, Room):
             # Room already exists
             handle_join_room({'user_id': user_id, 'room_id': room_id, 'game': game})
 
-    
-    
-
     @socketio.on('join_room')
     def handle_join_room(data):
         game = data['game']
         user_id = data['user_id']
         room_id = data['room_id']
 
-        print(game, user_id, room_id)
-
-        # Fetch the room from the database
+         # Fetch the room from the database
         room = Room.query.get(room_id)
 
         if room and len(room.users) < 2 and user_id not in room.users:
@@ -73,18 +74,68 @@ def register_socketio_events(socketio, db, Room):
             room.points = room.points.copy()
             room.points.append(0)
 
-            
             db.session.add(room)
             db.session.commit()
-
+            
             join_room(room_id)
             
-
-            print("JOINED")
             emit('room_joined', {'room_id': room_id, 'user_id': user_id, 'users': room.users}, room=room_id)
             emit('play_game', {'game': game, 'room_id': room_id}, room=room_id)
         else:
             emit('room_maximum_capacity')
+
+
+
+
+    @socketio.on('join_random')
+    def handle_join_random(data):
+        game = data['game']
+        user_id = data['user_id']
+
+        if user_id not in userQueue:
+            userQueue.append(user_id)
+
+        if len(userQueue) >= 2:
+            player1 = userQueue.popleft()
+            player2 = userQueue.popleft()
+
+            room_id = generate_random_key()
+            join_room(room_id, sid=player1)
+            join_room(room_id, sid=player2)
+
+            room = Room(
+                id=room_id,
+                users=[player1, player2],
+                symbol_class_names=["cross", "circle"],
+                points=[0, 0],
+                moves=[],
+                won=False,
+                current_player=0,
+                game=game
+            )
+
+            db.session.add(room)
+            db.session.commit()
+
+            emit('room_created', {'room_id': room_id, 'user_id': user_id}, room=room_id)
+            emit('room_joined', {'room_id': room_id, 'user_id': user_id, 'users': [player1, player2]}, room=room_id)
+            emit('play_game', {'game': game, 'room_id': room_id}, room=room_id)
+        else:
+            # Add additional handling or logging for the case when there are not enough players in the queue
+            print("Waiting for more players in the queue.")
+
+
+
+    @socketio.on('leave_room')
+    def handle_leave_room(data):
+        user_id = data['user_id']
+        room_id = data['room_id']
+
+        # Leave the specified room
+        leave_room(room_id)
+
+        # Emit an event to inform clients that the user left the room
+        socketio.emit('user_left_room', {'user_id': user_id}, room=room_id)        
 
     @socketio.on('play_game')
     def handle_play_game(data):
@@ -93,7 +144,6 @@ def register_socketio_events(socketio, db, Room):
 
         room_url = url_for('games.play_game', game=game, room_id=room_id)
         socketio.emit('redirect', {'url': room_url}, room=room_id)
-
 
     @socketio.on('placeSymbol')
     def handle_placeSymbol(data):
@@ -146,8 +196,6 @@ def register_socketio_events(socketio, db, Room):
         db.session.add(room)
         db.session.commit()
   
-
-
     @socketio.on('updatePlayerPoints')
     def handle_updatePlayerPoints(data):
         room_id = data.values()
@@ -165,3 +213,9 @@ def register_socketio_events(socketio, db, Room):
 
         db.session.add(room)
         db.session.commit()
+
+
+def generate_random_key():
+    characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~'
+    random_key = ''.join(choice(characters) for _ in range(8))
+    return random_key
